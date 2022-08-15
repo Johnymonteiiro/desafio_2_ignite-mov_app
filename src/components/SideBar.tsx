@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { api } from '../services/api';
 
@@ -20,10 +20,14 @@ export function SideBar(props: SideBarProps) {
   const selectedGenreId = props.selectedGenreId;
   const [genres, setGenres] = useState<GenreResponseProps[]>([]);
 
-  useEffect(() => {
+  const getGenre = useCallback(()=>{
     api.get<GenreResponseProps[]>('genres').then(response => {
       setGenres(response.data);
     });
+  },[])
+
+  useEffect(() => {
+    getGenre()
   }, []);
 
 
@@ -46,5 +50,4 @@ export function SideBar(props: SideBarProps) {
       </nav>
     </>
   )
-  // Complete aqui
 }
